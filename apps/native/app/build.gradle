@@ -1,0 +1,108 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
+/*
+ * 本机配置统一放在仓库根的 .env（模板 .env.example，.env 不入库）。
+ * 域名、同步地址、签名信息都从这里读，仓库里不写死任何真实值。
+ */
+def repoRoot = file('../../..')
+def appEnv = [:]
+[new File(repoRoot, '.env.example'), new File(repoRoot, '.env')].each { f ->
+    if (!f.exists()) return
+    f.readLines('UTF-8').each { line ->
+        def s = line.trim()
+        if (!s || s.startsWith('#') || !s.contains('=')) return
+        def kv = s.split('=', 2)
+        appEnv[kv[0].trim()] = kv[1].trim().replaceAll(/^["']|["']$/, '')
+    }
+}
+
+android {
+    namespace 'host.workbuddy.dailytasklist.app'
+    compileSdk 37
+
+    defaultConfig {
+        applicationId "host.workbuddy.dailytasklist.app"
+        minSdk 33
+        targetSdk 37
+        versionCode 43
+        versionName "1.43"
+
+        // 同步服务地址由 .env 注入，模板里只是占位符
+        buildConfigField 'String', 'SYNC_BASE_URL', '"' + (appEnv.APP_BASE_URL ?: '') + '"'
+    }
+
+    /*
+     * 签名密钥放在本机（不入库），用 .env 的 ANDROID_* 指向本地 keystore。
+     * 换机器时务必把 keystore 一起带走，否则手机上已装的版本只能卸载重装。
+     * 生成自己的密钥：
+     *   keytool -genkeypair -v -keystore apps/native/keystore/dailytask.jks \
+     *       -alias studytodo -keyalg RSA -keysize 2048 -validity 10000
+     */
+    signingConfigs {
+        dailytask {
+            storeFile new File(repoRoot, appEnv.ANDROID_KEYSTORE ?: 'apps/native/keystore/dailytask.jks')
+            storePassword appEnv.ANDROID_KEYSTORE_PASSWORD ?: 'changeit'
+            keyAlias appEnv.ANDROID_KEY_ALIAS ?: 'studytodo'
+            keyPassword appEnv.ANDROID_KEY_PASSWORD ?: 'changeit'
+        }
+    }
+
+    buildFeatures {
+        compose true
+        buildConfig true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.dailytask
+        }
+        debug {
+            applicationIdSuffix ""
+            signingConfig signingConfigs.dailytask
+        }
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    /* 离屏截图测试：没有真机/模拟器时，在 JVM 里用 Robolectric 真实渲染 Compose 并导出 PNG */
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+}
+
+dependencies {
+    implementation platform('androidx.compose:compose-bom:2026.06.01')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.foundation:foundation'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material:material-icons-core'
+    implementation 'androidx.compose.material:material-icons-extended'
+    implementation 'androidx.compose.animation:animation'
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.core:core-ktx:1.16.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.0'
+
+    /* 液态玻璃：PrismalAGSL（AGSL 折射/色散，API 33+ 全效） */
+    implementation 'com.github.styropyr0:PrismalAGSL:1.0.4'
+
+    /* ---- 仅开发期：离屏渲染截图，不进入 APK ---- */
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.17'
+    /* 给 Robolectric 提供一个可启动的 ComponentActivity */
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}

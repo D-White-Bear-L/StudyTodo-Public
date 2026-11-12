@@ -1,0 +1,54 @@
+# ============================================================
+# StudyTodo nginx 站点配置模板
+#
+# 这是模板，不要直接部署。先填好项目根的 .env，再运行：
+#   npm run config:gen
+# 会生成 build/nginx-site.conf（不入库），把那个文件放到服务器上。
+#
+# 页面与同步接口同源，后端只监听回环地址，公网只能经 nginx 进来。
+# ============================================================
+
+server {
+    listen 80;
+    server_name {{APP_DOMAIN}};
+
+    # 80 端口只用来跳转，不提供任何内容
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name {{APP_DOMAIN}};
+
+    ssl_certificate     {{SSL_CERT}};
+    ssl_certificate_key {{SSL_KEY}};
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE:!NULL:!aNULL:!MD5:!ADH:!RC4;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:todo_ssl:10m;
+    ssl_session_timeout 1h;
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    access_log {{ACCESS_LOG}};
+    error_log  {{ERROR_LOG}} warn;
+
+    # 同步服务本体：网页版和数据接口都在这一个进程里，同源
+    location / {
+        proxy_pass http://{{SYNC_BIND}}:{{SYNC_PORT}};
+        proxy_http_version 1.1;
+
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade           $http_upgrade;
+        proxy_set_header Connection        $connection_upgrade;
+
+        # 首次全量同步会一次传几百条记录，留足时间
+        proxy_connect_timeout 10s;
+        proxy_send_timeout    60s;
+        proxy_read_timeout    60s;
+    }
+}

@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="900" height="360" role="img" aria-label="液态玻璃材质分层与光路示意">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3F7FC"/>
+      <stop offset="1" stop-color="#E2EAF5"/>
+    </linearGradient>
+    <radialGradient id="gGreen"><stop offset="0" stop-color="#6FDDA0" stop-opacity=".9"/><stop offset="1" stop-color="#6FDDA0" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gBlue"><stop offset="0" stop-color="#6FA8FF" stop-opacity=".8"/><stop offset="1" stop-color="#6FA8FF" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gWarm"><stop offset="0" stop-color="#FFC48A" stop-opacity=".75"/><stop offset="1" stop-color="#FFC48A" stop-opacity="0"/></radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".80"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity=".44"/>
+    </linearGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="24"/></filter>
+    <filter id="soft" x="-40%" y="-200%" width="180%" height="500%"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>
+
+  <rect x="0" y="0" width="900" height="360" rx="18" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="899" height="359" rx="18" fill="none" stroke="#D6E1EF"/>
+
+  <text x="30" y="40" font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="21" font-weight="700" fill="#1A2230">液态玻璃 · 材质分层与光路</text>
+  <text x="30" y="62" font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="12" fill="#657184">玻璃只用在真正需要交互的层上，内容区保持平整薄表面</text>
+
+  <!-- 左侧：色场 + 玻璃 -->
+  <rect x="28" y="80" width="540" height="252" rx="20" fill="#E9F0F9" stroke="#D6E1EF"/>
+  <circle cx="130" cy="150" r="92" fill="url(#gGreen)" filter="url(#blur)"/>
+  <circle cx="430" cy="290" r="112" fill="url(#gBlue)" filter="url(#blur)"/>
+  <circle cx="480" cy="130" r="74" fill="url(#gWarm)" filter="url(#blur)"/>
+  <text x="44" y="104" font-family="system-ui, 'PingFang SC', sans-serif" font-size="11" fill="#7A8798">解析式色场 SceneField</text>
+
+  <!-- 色散示意：玻璃边缘外的三通道偏移 -->
+  <rect x="86" y="126" width="408" height="180" rx="30" fill="none" stroke="#FF6B6B" stroke-width="1.4" opacity=".38"/>
+  <rect x="88" y="126" width="408" height="180" rx="30" fill="none" stroke="#4BC85C" stroke-width="1.4" opacity=".38"/>
+  <rect x="90" y="126" width="408" height="180" rx="30" fill="none" stroke="#5B8DEF" stroke-width="1.4" opacity=".38"/>
+
+  <!-- 玻璃卡片 -->
+  <rect x="90" y="126" width="408" height="180" rx="28" fill="url(#glass)" stroke="#FFFFFF" stroke-width="1.6"/>
+  <rect x="94" y="130" width="400" height="172" rx="25" fill="none" stroke="#FFFFFF" stroke-width="1" opacity=".45"/>
+  <ellipse cx="270" cy="134" rx="150" ry="7" fill="#FFFFFF" opacity=".75" filter="url(#soft)"/>
+  <rect x="108" y="152" width="372" height="34" rx="13" fill="#FFFFFF" opacity=".50"/>
+  <rect x="108" y="194" width="372" height="34" rx="13" fill="#FFFFFF" opacity=".50"/>
+  <rect x="108" y="236" width="372" height="34" rx="13" fill="#FFFFFF" opacity=".50"/>
+  <circle cx="128" cy="169" r="7" fill="#4BC85C" opacity=".85"/>
+  <circle cx="128" cy="211" r="7" fill="#4BC85C" opacity=".55"/>
+  <circle cx="128" cy="253" r="7" fill="#B9C4D2" opacity=".8"/>
+  <rect x="146" y="165" width="176" height="8" rx="4" fill="#A8B4C4" opacity=".75"/>
+  <rect x="146" y="207" width="128" height="8" rx="4" fill="#A8B4C4" opacity=".75"/>
+  <rect x="146" y="249" width="204" height="8" rx="4" fill="#A8B4C4" opacity=".75"/>
+  <rect x="410" y="163" width="52" height="12" rx="6" fill="#4BC85C" opacity=".22"/>
+  <rect x="410" y="205" width="52" height="12" rx="6" fill="#5B8DEF" opacity=".20"/>
+  <rect x="410" y="247" width="52" height="12" rx="6" fill="#FFB86B" opacity=".28"/>
+
+  <text x="100" y="322" font-family="system-ui, 'PingFang SC', sans-serif" font-size="11" fill="#6B7788">SDF 圆角折射</text>
+  <text x="252" y="322" font-family="system-ui, 'PingFang SC', sans-serif" font-size="11" fill="#6B7788">RGB 三通道色散</text>
+  <text x="414" y="322" font-family="system-ui, 'PingFang SC', sans-serif" font-size="11" fill="#6B7788">Fresnel 内辉光 · 动态高光</text>
+
+  <!-- 右侧：四层材质 -->
+  <text x="596" y="104" font-family="system-ui, 'PingFang SC', sans-serif" font-size="14" font-weight="700" fill="#1A2230">四层材质</text>
+  <text x="596" y="124" font-family="system-ui, 'PingFang SC', sans-serif" font-size="11" fill="#7A8798">按交互权重决定玻璃厚度</text>
+
+  <g font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif">
+    <rect x="596" y="136" width="276" height="46" rx="12" fill="#FFFFFF" opacity=".78" stroke="#DCE5F0"/>
+    <circle cx="616" cy="159" r="6" fill="#4BC85C"/>
+    <text x="632" y="155" font-size="13" font-weight="600" fill="#222C3A">Floating</text>
+    <text x="632" y="172" font-size="10.5" fill="#788594">悬浮坞 / 底部操作栏</text>
+
+    <rect x="596" y="190" width="276" height="46" rx="12" fill="#FFFFFF" opacity=".78" stroke="#DCE5F0"/>
+    <circle cx="616" cy="213" r="6" fill="#5B8DEF"/>
+    <text x="632" y="209" font-size="13" font-weight="600" fill="#222C3A">Control</text>
+    <text x="632" y="226" font-size="10.5" fill="#788594">按钮 / 滑块 / 圆形按钮</text>
+
+    <rect x="596" y="244" width="276" height="46" rx="12" fill="#FFFFFF" opacity=".78" stroke="#DCE5F0"/>
+    <circle cx="616" cy="267" r="6" fill="#B07BEA"/>
+    <text x="632" y="263" font-size="13" font-weight="600" fill="#222C3A">Panel</text>
+    <text x="632" y="280" font-size="10.5" fill="#788594">弹窗 / 设置 / 底部 sheet</text>
+
+    <rect x="596" y="298" width="276" height="34" rx="12" fill="#FFFFFF" opacity=".55" stroke="#DCE5F0" stroke-dasharray="4 3"/>
+    <circle cx="616" cy="315" r="5" fill="#A8B4C4"/>
+    <text x="632" y="320" font-size="12" fill="#5A6878">Row · 任务行用平整薄表面，不叠玻璃</text>
+  </g>
+</svg>

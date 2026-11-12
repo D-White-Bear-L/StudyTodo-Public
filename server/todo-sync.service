@@ -1,0 +1,33 @@
+# StudyTodo 同步服务 systemd 单元模板
+# 不要直接部署：填好项目根 .env 后运行 npm run config:gen，
+# 用生成的 build/todo-sync.service（不入库）。
+
+[Unit]
+Description=StudyTodo sync service
+Documentation=file:{{DEPLOY_DIR}}/sync_server.py
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory={{DEPLOY_DIR}}
+Environment=TODO_DB={{SYNC_DB}}
+Environment=TODO_TOKEN={{SYNC_TOKEN}}
+Environment=TODO_SECRET={{SYNC_SECRET}}
+Environment=TODO_STATIC={{SYNC_STATIC}}
+Environment=TODO_BACKUP={{SYNC_BACKUP}}
+Environment=TODO_BIND={{SYNC_BIND}}
+Environment=TODO_PORT={{SYNC_PORT}}
+Environment=PYTHONUNBUFFERED=1
+ExecStart={{PYTHON_BIN}} {{DEPLOY_DIR}}/sync_server.py
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths={{DEPLOY_DIR}}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,18 @@
+plugins {
+    id 'com.android.application' version '9.3.1' apply false
+    id 'org.jetbrains.kotlin.plugin.compose' version '2.2.20' apply false
+}
+
+/* C 盘常年没空间，构建中间产物（intermediates 动辄 200MB+）会把机器写崩，
+   所以真实构建目录放在 F 盘。
+
+   但不能直接把 buildDir 指到 F 盘：AGP 9 在创建单元测试任务时会拿 buildDir 和
+   工程目录算相对路径，两个不同盘符会直接报
+   「this and base files have different roots」——测试根本跑不起来。
+
+   所以改成目录联接（junction）：路径仍是工程内的 app/build，字节实际落在 F 盘。
+   新机器上执行一次 setup-build-dir.bat 建好联接即可。 */
+def link = new File(projectDir, 'app/build')
+if (!link.exists()) {
+    logger.lifecycle("提示：app/build 不存在，请先运行 setup-build-dir.bat（构建产物会写进 C 盘）")
+}

@@ -1,0 +1,59 @@
+# 依赖
+node_modules/
+
+# 构建产物 / 发布产物（体积大，可重新生成，不入版本库）
+build/
+apps/webview/dist/
+apps/native/build/
+apps/native/build
+apps/native/app/build/
+apps/native/.gradle/
+apps/native/.kotlin/
+apps/native/release/
+apps/native/publish_download/
+apps/native/captures/
+apps/webview/android/app/build/
+apps/webview/android/build/
+apps/webview/android/.gradle/
+apps/webview/android/.kotlin/
+apps/webview/android/app/src/main/assets/public/
+release/
+
+# 本地配置
+local.properties
+apps/native/local.properties
+apps/webview/android/local.properties
+
+# 本地运行痕迹
+.spacetest.bin
+__pycache__/
+*.py[cod]
+
+# 隐私数据：个人任务备份、加密数据库备份、密钥、同步码
+backup/
+server/backup/
+server/*.db
+server/token
+server/secret.key
+
+# 发布标记 / 工作区工具数据
+.wbapp_*.genie
+.workbuddy/
+.workbuddy-ai/
+
+# 系统
+.DS_Store
+Thumbs.db
+*.log
+
+# 本地配置 / 私有文档（绝不入库）
+.env
+.env.*
+!.env.example
+keystore.properties
+apps/native/keystore/*.jks
+README.private.md
+OPS.md
+
+# 注意：签名密钥由 .env / keystore.properties 指向本地文件，不随仓库分发。
+# 本地 keystore 一旦丢失，手机上已装的版本只能卸载重装，请自行离线备份。

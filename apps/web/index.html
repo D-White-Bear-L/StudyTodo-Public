@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="theme-color" content="#E8EDF3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="每日清单">
+<title>每日任务清单</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ========== 首屏：先让人知道这是什么、能装 App，再决定进哪个 ========== -->
+<div id="welcome" class="welcome" hidden>
+  <div class="welcome-card">
+    <div class="welcome-mark"><img src="icon-192.png" alt=""></div>
+    <h1 class="welcome-title">每日任务清单</h1>
+    <p class="welcome-lead">把今天要做的事排好，做完打个勾。</p>
+
+    <div class="welcome-actions">
+      <button class="welcome-btn primary" data-act="downloadApk">
+        <svg viewBox="0 0 24 24" class="ic"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+        <span class="wb-text">
+          <b>下载安卓版</b>
+          <i>装到手机上，离线也能用</i>
+        </span>
+      </button>
+      <button class="welcome-btn" data-act="enterWeb">
+        <svg viewBox="0 0 24 24" class="ic"><path d="M4 12h14m0 0l-5-5m5 5l-5 5"/></svg>
+        <span class="wb-text">
+          <b>直接用网页版</b>
+          <i>不用安装，登录同一个同步码即可</i>
+        </span>
+      </button>
+    </div>
+
+    <div class="welcome-grid">
+      <div class="welcome-item"><b>多端同步</b><span>手机电脑共用</span></div>
+      <div class="welcome-item"><b>数据加密</b><span>服务端存密文</span></div>
+      <div class="welcome-item"><b>离线可用</b><span>没网也能记</span></div>
+    </div>
+
+    <p class="welcome-foot">网页版可以「添加到主屏幕」，用起来和 App 一样</p>
+  </div>
+</div>
+
+<div id="app">
+
+  <!-- ========== 每日任务清单 ========== -->
+  <section class="page" id="page-list">
+    <header class="topbar">
+      <h1 class="topbar-title">每日任务清单</h1>
+      <div class="topbar-actions">
+        <button class="pill" data-act="sort">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M4 7h16M7 12h10M10 17h4"/></svg>
+          排序
+        </button>
+        <button class="pill" data-act="exportMenu">
+          <svg viewBox="0 0 24 24" class="ic"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+          导出
+        </button>
+        <button class="pill pill-orange" data-act="multi">多选</button>
+      </div>
+    </header>
+    <div class="page-body" id="listBody"></div>
+    <div class="actionbar" id="listActionbar"></div>
+  </section>
+
+  <!-- ========== 学习详情 ========== -->
+  <section class="page" id="page-study">
+    <header class="topbar">
+      <button class="icon-btn" data-act="back"><svg viewBox="0 0 24 24" class="ic ic-lg"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h1 class="topbar-title center">学习详情</h1>
+      <button class="pill pill-blue" data-act="carryOver">沿用上一日</button>
+    </header>
+    <div class="page-body" id="studyBody"></div>
+    <div class="actionbar" id="studyActionbar"></div>
+  </section>
+
+  <!-- ========== 编辑任务 ========== -->
+  <section class="page" id="page-edit">
+    <header class="topbar">
+      <button class="icon-btn" data-act="back"><svg viewBox="0 0 24 24" class="ic ic-lg"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h1 class="topbar-title center" id="editTitle">编辑任务</h1>
+      <span class="icon-btn ghost"></span>
+    </header>
+    <div class="page-body" id="editBody"></div>
+    <div class="actionbar" id="editActionbar"></div>
+  </section>
+
+  <!-- ========== 选择日期 / 日历 ========== -->
+  <section class="page" id="page-calendar">
+    <header class="topbar">
+      <button class="icon-btn" data-act="back"><svg viewBox="0 0 24 24" class="ic ic-lg"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <h1 class="topbar-title center">选择日期</h1>
+      <span class="icon-btn ghost"></span>
+    </header>
+    <div class="page-body" id="calBody"></div>
+    <div class="actionbar" id="calActionbar"></div>
+  </section>
+
+</div>
+
+<div id="sheetRoot"></div>
+<div id="modalRoot"></div>
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

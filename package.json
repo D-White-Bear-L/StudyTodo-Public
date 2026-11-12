@@ -1,0 +1,14 @@
+{
+  "name": "daily-task-list",
+  "version": "1.1.0",
+  "private": true,
+  "description": "每日任务清单 —— 同一份产品，三种技术形态：网页版 / Capacitor 套壳 / Kotlin 原生",
+  "scripts": {
+    "config:gen": "node scripts/gen-config.js",
+    "dev": "python -m http.server 8899 --directory apps/web",
+    "build:native": "node scripts/build-native.js",
+    "build:webview": "node scripts/build-webview.js",
+    "build:all": "node scripts/build-native.js && node scripts/build-webview.js",
+    "publish:prepare": "node scripts/prepare-publish.js"
+  }
+}

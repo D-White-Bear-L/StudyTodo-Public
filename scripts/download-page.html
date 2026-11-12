@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#E8EDF3">
+<title>下载 每日任务清单</title>
+<style>
+:root{
+  --glass:rgba(255,255,255,.62);
+  --glass-border:rgba(255,255,255,.55);
+  --text:#1A1D21;
+  --sub:#5A6270;
+  --muted:#8A94A3;
+  --blue:#2B7FFF;
+  --green:#34C759;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  background:linear-gradient(180deg,#E8EDF3,#DDE5EE);
+  background-attachment:fixed;
+  color:var(--text);font-size:15px;line-height:1.5;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px 18px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{width:100%;max-width:430px}
+.card{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:24px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 12px 32px rgba(25,40,70,.1);
+  backdrop-filter:blur(24px) saturate(170%);
+  -webkit-backdrop-filter:blur(24px) saturate(170%);
+  padding:26px 20px;
+  text-align:center;
+}
+.icon{
+  width:88px;height:88px;border-radius:23px;
+  margin:0 auto 16px;
+  box-shadow:0 10px 26px rgba(52,199,89,.3);
+  display:block;
+}
+h1{font-size:22px;font-weight:800;letter-spacing:-.3px}
+.desc{font-size:13.5px;color:var(--sub);margin-top:12px;line-height:1.65}
+
+.dl{
+  display:flex;align-items:center;gap:12px;
+  padding:15px 16px;border-radius:16px;margin-top:12px;
+  text-decoration:none;text-align:left;
+  border:1px solid rgba(255,255,255,.3);
+  transition:.15s;
+}
+.dl:active{transform:scale(.98)}
+.dl-native{
+  background:linear-gradient(135deg,#34C759,#2FB44F);
+  box-shadow:0 10px 24px rgba(52,199,89,.28),inset 0 1px 0 rgba(255,255,255,.35);
+}
+.dl-webview{
+  background:rgba(255,255,255,.55);
+  border-color:rgba(255,255,255,.5);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
+}
+.dl-main{flex:1;min-width:0}
+.dl-title{font-size:16px;font-weight:800;color:#fff}
+.dl-desc{font-size:11.5px;color:rgba(255,255,255,.85);margin-top:3px;line-height:1.45}
+.dl-webview .dl-title{color:var(--text)}
+.dl-webview .dl-desc{color:var(--muted)}
+.dl-side{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.dl-size{font-size:11px;color:rgba(255,255,255,.8)}
+.dl-webview .dl-size{color:var(--muted)}
+.dl svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.dl-webview svg{stroke:var(--blue)}
+
+.meta{
+  display:flex;justify-content:center;
+  margin-top:16px;font-size:12px;color:var(--muted);
+}
+.meta span{padding:0 12px;border-right:1px solid rgba(20,30,50,.1)}
+.meta span:last-child{border-right:0}
+
+.steps{
+  margin-top:18px;padding:15px;border-radius:16px;text-align:left;
+  background:rgba(255,255,255,.45);
+  border:1px solid rgba(255,255,255,.4);
+}
+.steps h2{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:9px}
+.steps ol{margin:0;padding-left:18px;font-size:12.5px;color:var(--sub);line-height:1.9}
+.steps li::marker{color:var(--blue);font-weight:700}
+
+.note{
+  margin-top:14px;padding:12px 14px;border-radius:14px;text-align:left;
+  background:rgba(255,159,0,.12);
+  border:1px solid rgba(255,159,0,.2);
+  font-size:12px;color:#9A6200;line-height:1.7;
+}
+.note b{display:block;margin-bottom:3px;color:#7A4E00;font-size:12.5px}
+
+.web{
+  display:block;margin-top:16px;font-size:13px;color:var(--blue);
+  text-decoration:none;font-weight:600;
+}
+.web:active{opacity:.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <img class="icon" src="icon-512.png" alt="每日任务清单">
+    <h1>每日任务清单</h1>
+    <div class="desc">待办清单 + 学习记录 + 打卡复盘<br>数据全部保存在本机，不上传服务器</div>
+
+    {{DOWNLOAD_CARDS}}
+
+    <div class="meta">
+      <span>Android 5.1+</span>
+      <span>免费</span>
+      <span>无需登录</span>
+    </div>
+
+    <div class="steps">
+      <h2>安装步骤</h2>
+      <ol>
+        <li>点击上方任一版本下载</li>
+        <li>在文件管理里找到并点击 APK</li>
+        <li>允许「安装未知应用」后继续</li>
+        <li>安装完成，桌面出现图标</li>
+      </ol>
+    </div>
+
+    <div class="note">
+      <b>两个版本怎么选？</b>
+      想要更流畅的手感选「原生版」；如果原生版在你的手机上打不开，用「兼容版」。
+    </div>
+
+    <a class="web" href="index.html">不想装 App？直接用网页版 →</a>
+  </div>
+</div>
+</body>
+</html>
